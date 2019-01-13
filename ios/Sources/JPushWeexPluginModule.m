@@ -11,6 +11,7 @@
 #import <JPush/JPUSHService.h>
 #ifdef NSFoundationVersionNumber_iOS_9_x_Max
 #import <UserNotifications/UserNotifications.h>
+#import "JPushManager.h"
 #endif
 
 @interface JPushWeexPluginModule() <JPUSHRegisterDelegate>
@@ -22,7 +23,7 @@
 
 @implementation JPushWeexPluginModule
 
-WX_PlUGIN_EXPORT_MODULE(jpushWeexPlugin, JpushWeexPluginModule)
+WX_PlUGIN_EXPORT_MODULE(jpushWeexPlugin, JPushWeexPluginModule)
 
 + (id)allocWithZone:(NSZone *)zone {
     static JPushWeexPluginModule *sharedInstance = nil;
@@ -204,6 +205,12 @@ WX_PlUGIN_EXPORT_MODULE(jpushWeexPlugin, JpushWeexPluginModule)
             break;
     }
     return formatDic;
+}
+WX_EXPORT_METHOD(@selector(initPush:));
+
+- (void)initPush:(NSDictionary *)info
+{
+    [[JPushManager shareInstance] configPushService:info];
 }
 
 
